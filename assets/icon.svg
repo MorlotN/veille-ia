@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1d2a3a"/>
+      <stop offset="1" stop-color="#0e1319"/>
+    </linearGradient>
+    <linearGradient id="wave" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#4c9be8"/>
+      <stop offset="1" stop-color="#4ec98a"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="240" height="240" rx="52" fill="url(#bg)"/>
+  <rect x="8" y="8" width="240" height="240" rx="52" fill="none" stroke="#4c9be8" stroke-opacity="0.35" stroke-width="3"/>
+  <!-- feuille d'actualite -->
+  <rect x="52" y="56" width="112" height="128" rx="10" fill="#e6e9ef"/>
+  <rect x="68" y="76" width="80" height="12" rx="6" fill="#1d2a3a"/>
+  <rect x="68" y="100" width="80" height="7" rx="3.5" fill="#8b95a7"/>
+  <rect x="68" y="116" width="66" height="7" rx="3.5" fill="#8b95a7"/>
+  <rect x="68" y="132" width="74" height="7" rx="3.5" fill="#8b95a7"/>
+  <rect x="68" y="148" width="52" height="7" rx="3.5" fill="#8b95a7"/>
+  <!-- onde vocale -->
+  <g stroke="url(#wave)" stroke-linecap="round" stroke-width="11" fill="none">
+    <path d="M176 128 v-8"/>
+    <path d="M198 128 v-34"/>
+    <path d="M220 128 v-56"/>
+  </g>
+  <g stroke="url(#wave)" stroke-linecap="round" stroke-width="11" fill="none" opacity="0.85">
+    <path d="M176 140 v8"/>
+    <path d="M198 140 v34"/>
+    <path d="M220 140 v56"/>
+  </g>
+</svg>

@@ -1,0 +1,133 @@
+# Configuration de Veille IA.
+# Copiee au premier lancement vers ~/.config/veille-ia/config.toml (droits 600).
+# C'est ce fichier utilisateur qu'il faut editer, pas celui-ci.
+
+[telegram]
+# Token du bot, obtenu aupres de @BotFather. Reste en local, jamais dans git.
+bot_token = "METTRE_ICI_LE_TOKEN_DU_BOT"
+chat_id = "METTRE_ICI_TON_CHAT_ID"
+send_audio = true      # envoyer aussi la version audio de chaque article
+send_recap = true      # message de fin d'execution
+show_commands = false  # bloc /info /rate /list (utile seulement avec un bot qui y repond)
+
+[ollama]
+base_url = "http://127.0.0.1:11434"
+filter_model = "llama3.1:8b"
+summary_model = "mistral-small3.2:latest"
+timeout_s = 300
+keep_alive = "10m"          # garde le modèle chargé entre deux articles
+num_ctx = 8192
+summary_num_predict = 500   # borne la longueur du résumé (0 = illimité)
+
+[tts]
+enabled = true
+backend = "auto"       # auto | local | http | off
+voice = "fr_FR-siwis-medium"       # voix principale (feminine)
+voice_alt = "fr_FR-tom-medium"     # un article sur deux (masculine), vide = une seule voix
+models_dir = ""        # vide = recherche auto (~/piper-models, ~/code/jarvis/voiced/models)
+http_url = "http://127.0.0.1:5000"   # utilise seulement si le mode local echoue
+# length_scale = 1.0   # > 1 = diction plus lente
+max_chars = 2000
+
+[fetch]
+max_per_feed = 0       # 0 = tout le flux
+max_total = 0          # 0 = aucun plafond, tous les nouveaux articles sont traités
+skip_rejected = true   # ne pas re-filtrer à chaque exécution un article déjà écarté
+http_timeout_s = 20
+max_content_chars = 8000   # texte envoye au LLM par article
+workers = 8
+
+[pacing]
+between_messages_s = 5   # anti rate-limit Telegram
+between_audio_s = 4
+
+[prompts]
+filter_prompt = """
+Vous êtes un agent de veille IA pour un ingénieur en intelligence artificielle basé à Lyon.
+
+Analysez l'article suivant :
+Titre: {title}
+Contenu: {content}
+
+Vérifiez si l'un des critères suivants s'applique :
+1. Nouvelle technologie ou innovation IA
+2. Aide/subvention de l'État français, région Auvergne-Rhône-Alpes ou UE
+3. Opportunité clients ou cas d'usage industriel
+
+Répondez EXACTEMENT par l'un des deux tokens suivants, et rien d'autre :
+- $$oui
+- $$non
+Ne justifiez pas, n'ajoutez aucun mot, pas de ponctuation.
+"""
+
+summary_prompt = """
+Écrivez un résumé concis et structuré de cet article en français :
+
+Titre: {title}
+Contenu: {content}
+
+Le résumé doit :
+- Faire maximum 5 phrases
+- Mettre en évidence les points clés
+- Être factuel et professionnel
+- Mettre au debut du résumé: $$
+
+RÉSUMÉ:
+"""
+
+# Les 14 flux du workflow n8n. Ajoute ou retire librement.
+[[feeds]]
+name = "ActuIA"
+url = "https://www.actuia.com/feed"
+
+[[feeds]]
+name = "MIT Technology Review"
+url = "https://www.technologyreview.com/feed"
+
+[[feeds]]
+name = "Futura Sciences"
+url = "https://www.futura-sciences.com/rss/actualites.xml"
+
+[[feeds]]
+name = "ScienceDaily"
+url = "http://www.sciencedaily.com/newsfeed.xml"
+
+[[feeds]]
+name = "TechCrunch"
+url = "https://techcrunch.com/feed"
+
+[[feeds]]
+name = "Le Monde"
+url = "https://www.lemonde.fr/rss/une.xml"
+
+[[feeds]]
+name = "La Tribune"
+url = "https://www.latribune.fr/feed.xml"
+
+[[feeds]]
+name = "Wired"
+url = "https://www.wired.com/feed/rss"
+
+[[feeds]]
+name = "Maddyness"
+url = "https://www.maddyness.com/feed"
+
+[[feeds]]
+name = "The Verge AI"
+url = "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml"
+
+[[feeds]]
+name = "Ars Technica"
+url = "https://feeds.arstechnica.com/arstechnica/technology-lab"
+
+[[feeds]]
+name = "VentureBeat AI"
+url = "https://venturebeat.com/category/ai/feed/"
+
+[[feeds]]
+name = "Synced Review"
+url = "https://syncedreview.com/feed/"
+
+[[feeds]]
+name = "CNRS News"
+url = "https://news.cnrs.fr/rss"
